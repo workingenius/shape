@@ -6,14 +6,18 @@ from shape import *
 if __name__ == '__main__':
 
     assert TypedChecker(int).verify(3)
+
     assert SequenceChecker(TypedChecker(int)).verify([1, 2, 4])
+
     assert MappingChecker(TypedChecker(str), TypedChecker(int)).verify({'2': 2, '3': 3})
+
     assert (
         LengthChecker(2) & SequenceChecker(TypedChecker(int))
     ).verify([1, 4])
+
     assert (
         SequenceChecker(
-            ObjectChecker({
+            DictChecker({
                 'number': TypedChecker(int) | TypedChecker(float),
                 'int': TypedChecker(int),
                 'float': TypedChecker(float)

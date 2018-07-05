@@ -94,7 +94,7 @@ class MappingChecker(ShapeChecker):
         return True
 
 
-class ObjectChecker(ShapeChecker):
+class DictChecker(ShapeChecker):
     def __init__(self, checker_dct, allow_extra=True):
         self.checker_dct = checker_dct  # type: Dict[Hashable, ShapeChecker]
         self.allow_extra = allow_extra  # type: bool
