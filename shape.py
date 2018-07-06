@@ -193,3 +193,34 @@ class DictChecker(ShapeChecker):
                 return Summary(success=False, path=path, error='has extra keys')
 
         return Summary(success=True)
+
+
+# None Checkers
+
+
+class OptionalChecker(ShapeChecker):
+    def __init__(self, checker):
+        self.checker = checker
+
+    def verify(self, anything, path=None):
+        if not path:
+            path = []
+
+        if anything is None:
+            return Summary(success=True)
+        else:
+            return self.checker(anything, path=path)
+
+
+class OptionalKeyChecker(ShapeChecker):
+    def __init__(self, checker):
+        self.checker = checker
+
+    def verify(self, anything, path=None):
+        if not path:
+            path = []
+
+        if anything is NO_KEY:
+            return Summary(success=True)
+        else:
+            return self.checker(anything, path=path)
