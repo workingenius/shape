@@ -1,4 +1,5 @@
 # -*- coding:utf8 -*-
+from __future__ import print_function, unicode_literals
 
 from shape import *
 
@@ -34,3 +35,17 @@ if __name__ == '__main__':
             'float': 2.2
         }
     ])
+
+    # 收集错误信息
+
+    right = TermChecker(lambda x: x == 0).verify(0)
+
+    assert right
+
+    wrong = TermChecker(lambda x: x == 0).verify(6)
+
+    assert not wrong
+
+    # assert wrong.path
+    assert wrong.error
+    print(wrong)
