@@ -2,10 +2,19 @@
 
 from __future__ import print_function, unicode_literals
 
+from sys import version_info
+
 
 from unittest import TestCase
 
 from shape import *
+
+PY2 = (version_info.major == 2)
+PY3 = (version_info.major == 3)
+
+if PY2:
+    byte = str
+    str = unicode
 
 
 class TestTermChecker(TestCase):
