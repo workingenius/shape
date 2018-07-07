@@ -20,7 +20,7 @@ Generally speaking, we would want to do this as soon as possible. Spotting an er
 
 If the data really nest deeply, there would be many layers of "for loops", many breaks and continues. It's hard to read, not explicit enough, because code readers must imagine the data structure through imperitive instructions.
 
-That's how "shape" helps use. We just describe the nesting structure of data -- we call it the "shape" of data, then we get a checker that verifies anything that you give it. An example:
+That's how "shape" helps us. We just describe the nesting structure of data -- we call it the "shape" of data, then we get a checker that verifies anything that you give it. An example:
 
 ```python
 Subject = T(str) & E(['sport', 'maths', 'literature'])
@@ -40,7 +40,7 @@ Quiz = Dct({
 })
 ```
 
-Just like define classes, we define some "shapes", to be our helper. Then they can be used like:
+Just like define classes, we define some "shapes". Then they can be used like:
 
 ```python
 r = Quiz.verify({
