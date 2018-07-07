@@ -3,8 +3,6 @@
 from __future__ import print_function, unicode_literals
 
 from sys import version_info
-
-
 from unittest import TestCase
 
 from shape import *
@@ -26,7 +24,10 @@ class TestTermChecker(TestCase):
 
 
 class TestTypedChecker(TestCase):
-    def test_error_path(self):
+    def test_positive_case(self):
+        self.assertTrue(TypedChecker(int).verify(3))
+
+    def test_negative_case(self):
         summ = TypedChecker(int).verify(8.9)
         self.assertFalse(summ)
         self.assertEqual(summ.path, [])
