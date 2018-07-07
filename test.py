@@ -66,19 +66,19 @@ class TestOrChecker(TestCase):
         self.checker2 = TermChecker(lambda x: x > 0)
 
     def test_true_true(self):
-        summ = (self.checker1 & self.checker2).verify(1)
+        summ = (self.checker1 | self.checker2).verify(1)
         self.assertTrue(summ)
 
     def test_true_false(self):
-        summ = (self.checker1 & self.checker2).verify(-1)
+        summ = (self.checker1 | self.checker2).verify(-1)
         self.assertTrue(summ)
 
     def test_false_true(self):
-        summ = (self.checker2 & self.checker1).verify(-1)
+        summ = (self.checker2 | self.checker1).verify(-1)
         self.assertTrue(summ)
 
     def test_false_false(self):
-        summ = (self.checker2 & self.checker1).verify(-1.5)
+        summ = (self.checker2 | self.checker1).verify(-1.5)
         self.assertFalse(summ)
         self.assertEqual(summ.path, [])
 
@@ -156,4 +156,40 @@ class TestMappingChecker(TestCase):
         self.assertEqual(summ.path, ['invalid_k3'])
 
 
-# TODO: TestDictChecker
+class TestDictChecker(TestCase):
+    def setUp(self):
+        self.checker = DictChecker({
+            'key': TypedChecker(int)
+        }, allow_extra=False)
+
+        self.checker_extra = DictChecker({
+            'key': TypedChecker(int)
+        }, allow_extra=True)
+
+    def test_bad_interface(self):
+        """验证的对象不是字典时，验证不通过"""
+
+    def test_bad_interface_with_path(self):
+        """验证的对象不是字典时，错误路径中带有 dict key"""
+
+    def test_negative_case(self):
+        summ = self.checker.verify({'key': 1.1})
+        self.assertFalse(summ)
+
+    def test_negative_case_with_path(self):
+        summ = self.checker.verify({'key': 1.1})
+        self.assertEqual(summ.path, ['key'])
+
+    def test_extra_key_allowed(self):
+        summ = self.checker.verify({
+            'key': 1,
+            'extra_key': None
+        })
+        self.assertFalse(summ)
+
+    def test_extra_key_disallowed(self):
+        summ = self.checker_extra.verify({
+            'key': 1,
+            'extra_key': None
+        })
+        self.assertTrue(summ)

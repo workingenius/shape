@@ -126,7 +126,7 @@ class SequenceChecker(ShapeChecker):
             return Summary(success=False, path=path, error='not iterable')
 
         for i, e in enumerate(anything):
-            s = self.checker.verify(e, path=path + [str(i)])
+            s = self.checker.verify(e, path=path + [i])
             if not s:
                 return s
         return Summary(success=True)
@@ -196,6 +196,17 @@ class DictChecker(ShapeChecker):
 
 
 # None Checkers
+
+
+class NoneChecker(ShapeChecker):
+    def verify(self, anything, path=None):
+        if not path:
+            path = []
+
+        if anything is None:
+            return Summary(success=True)
+        else:
+            return Summary(success=False, path=path, error='is not none')
 
 
 class OptionalChecker(ShapeChecker):
