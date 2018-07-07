@@ -56,7 +56,7 @@ class ShapeChecker(object):
 # Base Terminal Checkers
 
 
-class TermChecker(ShapeChecker):
+class PredicateChecker(ShapeChecker):
     def __init__(self, predicate):
         self.predicate = predicate
 
@@ -287,7 +287,7 @@ class OptionalKeyChecker(ShapeChecker):
 
 # abbreviations
 
-C = TermChecker
+P = PredicateChecker
 T = TypeChecker
 L = LengthChecker
 N = NoneChecker

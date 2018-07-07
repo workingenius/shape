@@ -18,7 +18,7 @@ if PY2:
 class TestTermChecker(TestCase):
     def test_error_path(self):
         """检查报错产生的位置"""
-        summ = TermChecker(lambda x: x == 6).verify(4)
+        summ = PredicateChecker(lambda x: x == 6).verify(4)
         self.assertFalse(summ)
         self.assertEqual(summ.path, [])
 
@@ -48,7 +48,7 @@ class TestLengthChecker(TestCase):
 class TestAndChecker(TestCase):
     def setUp(self):
         self.checker1 = TypeChecker(int)
-        self.checker2 = TermChecker(lambda x: x > 0)
+        self.checker2 = PredicateChecker(lambda x: x > 0)
 
     def test_true_true(self):
         summ = (self.checker1 & self.checker2).verify(1)
@@ -73,7 +73,7 @@ class TestAndChecker(TestCase):
 class TestOrChecker(TestCase):
     def setUp(self):
         self.checker1 = TypeChecker(int)
-        self.checker2 = TermChecker(lambda x: x > 0)
+        self.checker2 = PredicateChecker(lambda x: x > 0)
 
     def test_true_true(self):
         summ = (self.checker1 | self.checker2).verify(1)
@@ -125,7 +125,7 @@ class TestSequenceChecker(TestCase):
 class TestMappingChecker(TestCase):
     def setUp(self):
         self.checker = MappingChecker(
-            TermChecker(lambda x: x.startswith('valid_')),
+            PredicateChecker(lambda x: x.startswith('valid_')),
             TypeChecker(int)
         )
 
@@ -244,7 +244,7 @@ class OverallTest(TestCase):
     Subject = T(str) & E(['sport', 'maths', 'literary'])
 
     Question = Mpp(
-        T(str) & C(lambda x: x.startswith('q')),  # q for "question"
+        T(str) & P(lambda x: x.startswith('q')),  # q for "question"
         Dct({
             'question': T(str),
             'options': Seq(T(str)),
