@@ -1,15 +1,45 @@
 # -*- coding:utf8 -*-
-
 from __future__ import print_function, unicode_literals
 
-from typing import Dict, Hashable
+try:
+    # noinspection PyUnresolvedReferences
+    from typing import List, Dict, Hashable
+except ImportError:
+    pass
 
-from summary import Summary
 
 NO_KEY = object()
 
 
+class Summary(object):
+    """
+    Describes if verification passes.
+    And if not, collect where and why it fails.
+    """
+
+    def __init__(self, success, path=None, error=''):
+        if not path:
+            path = []
+
+        self.success = success  # type: bool
+        self.path = path  # type: List[str]
+        self.error = error  # type: str
+
+    def __str__(self):
+        if self.success:
+            return '<shape good>'
+        else:
+            return '<shape bad: path: {0}, error: {1}>'.format('/' + '/'.join(self.path), self.error)
+
+    def __bool__(self):
+        return self.success
+
+
 class ShapeChecker(object):
+    """
+    A ShapeChecker is something that can do verification.
+    """
+
     def verify(self, anything, path):
         raise NotImplementedError
 
