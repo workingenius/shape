@@ -198,6 +198,17 @@ class DictChecker(ShapeChecker):
 # None Checkers
 
 
+class NoneChecker(ShapeChecker):
+    def verify(self, anything, path=None):
+        if not path:
+            path = []
+
+        if anything is None:
+            return Summary(success=True)
+        else:
+            return Summary(success=False, path=path, error='is not none')
+
+
 class OptionalChecker(ShapeChecker):
     def __init__(self, checker):
         self.checker = checker
