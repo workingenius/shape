@@ -235,3 +235,18 @@ class OptionalKeyChecker(ShapeChecker):
             return Summary(success=True)
         else:
             return self.checker(anything, path=path)
+
+
+# abbreviations
+
+C = TermChecker
+T = TypedChecker
+L = LengthChecker
+N = NoneChecker
+
+Seq = SequenceChecker
+Mpp = MappingChecker
+Dct = DictChecker
+
+Opt = OptionalChecker
+OpK = OptionalKeyChecker
