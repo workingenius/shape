@@ -185,7 +185,7 @@ class MappingChecker(ShapeChecker):
 
 
 class DictChecker(ShapeChecker):
-    def __init__(self, checker_dct, allow_extra=True):
+    def __init__(self, checker_dct, allow_extra=False):
         self.checker_dct = checker_dct  # type: Dict[Hashable, ShapeChecker]
         self.allow_extra = allow_extra  # type: bool
 
@@ -226,7 +226,7 @@ class NoneChecker(ShapeChecker):
 
 class OptionalChecker(ShapeChecker):
     def __init__(self, checker):
-        self.checker = checker
+        self.checker = checker  # type: ShapeChecker
 
     def verify(self, anything, path=None):
         if not path:
@@ -235,12 +235,12 @@ class OptionalChecker(ShapeChecker):
         if anything is None:
             return Summary(success=True)
         else:
-            return self.checker(anything, path=path)
+            return self.checker.verify(anything, path=path)
 
 
 class OptionalKeyChecker(ShapeChecker):
     def __init__(self, checker):
-        self.checker = checker
+        self.checker = checker  # type: ShapeChecker
 
     def verify(self, anything, path=None):
         if not path:
@@ -249,7 +249,7 @@ class OptionalKeyChecker(ShapeChecker):
         if anything is NO_KEY:
             return Summary(success=True)
         else:
-            return self.checker(anything, path=path)
+            return self.checker.verify(anything, path=path)
 
 
 # abbreviations

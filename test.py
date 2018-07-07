@@ -223,3 +223,78 @@ class TestOptionalKeyChecker(TestCase):
             # 'key': nothing
         })
         self.assertTrue(summ)
+
+
+class OverallTest(TestCase):
+
+    Subject = T(str) & E(['sport', 'maths', 'literary'])
+
+    Question = Mpp(
+        T(str) & C(lambda x: x.startswith('q')),  # q for "question"
+        Dct({
+            'question': T(str),
+            'options': Seq(T(str)),
+            'answer': OpK(T(str))
+        })
+    )
+
+    quiz_data_checker = Dct({
+        'success': T(bool),
+        'error': T(str)
+    }) | Dct({
+        'success': T(bool),
+        'data': Mpp(Subject, Question)
+    })
+
+    def test_case_1(self):
+        summ = self.quiz_data_checker.verify({
+            'success': True,
+            'error': 'should not be here',
+            'data': {}
+        })
+        print(summ)
+        self.assertFalse(summ)
+
+    def test_case_2(self):
+        summ = self.quiz_data_checker.verify({
+            'success': True,
+            'data': {
+                "sport": {
+                    "q1": {
+                        "question": "Which one is correct team name in NBA?",
+                        "options": [
+                            "New York Bulls",
+                            "Los Angeles Kings",
+                            "Golden State Warriros",
+                            "Huston Rocket"
+                        ],
+                        "answer": "Huston Rocket"
+                    }
+                },
+                "maths": {
+                    "q1": {
+                        "question": "5 + 7 = ?",
+                        "options": [
+                            "10",
+                            "11",
+                            "12",
+                            "13"
+                        ],
+                        "answer": "12"
+                    },
+                    "q2": {
+                        "question": "12 - 8 = ?",
+                        "options": [
+                            "1",
+                            "2",
+                            "3",
+                            "4"
+                        ],
+                        "answer": "4"
+                    }
+                }
+            }
+        })
+
+        print(summ)
+        self.assertTrue(summ)
