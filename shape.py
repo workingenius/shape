@@ -70,7 +70,7 @@ class TermChecker(ShapeChecker):
             return Summary(success=False, path=path, error='predicate fail')
 
 
-class TypedChecker(ShapeChecker):
+class TypeChecker(ShapeChecker):
     def __init__(self, cls):
         self.cls = cls
 
@@ -288,7 +288,7 @@ class OptionalKeyChecker(ShapeChecker):
 # abbreviations
 
 C = TermChecker
-T = TypedChecker
+T = TypeChecker
 L = LengthChecker
 N = NoneChecker
 E = EnumChecker

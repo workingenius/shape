@@ -25,10 +25,10 @@ class TestTermChecker(TestCase):
 
 class TestTypedChecker(TestCase):
     def test_positive_case(self):
-        self.assertTrue(TypedChecker(int).verify(3))
+        self.assertTrue(TypeChecker(int).verify(3))
 
     def test_negative_case(self):
-        summ = TypedChecker(int).verify(8.9)
+        summ = TypeChecker(int).verify(8.9)
         self.assertFalse(summ)
         self.assertEqual(summ.path, [])
 
@@ -47,7 +47,7 @@ class TestLengthChecker(TestCase):
 
 class TestAndChecker(TestCase):
     def setUp(self):
-        self.checker1 = TypedChecker(int)
+        self.checker1 = TypeChecker(int)
         self.checker2 = TermChecker(lambda x: x > 0)
 
     def test_true_true(self):
@@ -72,7 +72,7 @@ class TestAndChecker(TestCase):
 
 class TestOrChecker(TestCase):
     def setUp(self):
-        self.checker1 = TypedChecker(int)
+        self.checker1 = TypeChecker(int)
         self.checker2 = TermChecker(lambda x: x > 0)
 
     def test_true_true(self):
@@ -95,7 +95,7 @@ class TestOrChecker(TestCase):
 
 class TestSequenceChecker(TestCase):
     def setUp(self):
-        self.checker = SequenceChecker(TypedChecker(int))
+        self.checker = SequenceChecker(TypeChecker(int))
 
     def test_happy_case(self):
         summ = self.checker.verify([1, 2, 3])
@@ -126,7 +126,7 @@ class TestMappingChecker(TestCase):
     def setUp(self):
         self.checker = MappingChecker(
             TermChecker(lambda x: x.startswith('valid_')),
-            TypedChecker(int)
+            TypeChecker(int)
         )
 
     def test_happy_case(self):
@@ -169,11 +169,11 @@ class TestMappingChecker(TestCase):
 class TestDictChecker(TestCase):
     def setUp(self):
         self.checker = DictChecker({
-            'key': TypedChecker(int)
+            'key': TypeChecker(int)
         }, allow_extra=False)
 
         self.checker_extra = DictChecker({
-            'key': TypedChecker(int)
+            'key': TypeChecker(int)
         }, allow_extra=True)
 
     def test_bad_interface(self):
@@ -225,14 +225,14 @@ class TestNoneChecker(TestCase):
 
 class TestOptionalChecker(TestCase):
     def test_positive_case(self):
-        summ = OptionalChecker(TypedChecker(int)).verify(None)
+        summ = OptionalChecker(TypeChecker(int)).verify(None)
         self.assertTrue(summ)
 
 
 class TestOptionalKeyChecker(TestCase):
     def test_positive_case(self):
         summ = DictChecker({
-            'key': OptionalKeyChecker(TypedChecker(int))
+            'key': OptionalKeyChecker(TypeChecker(int))
         }).verify({
             # 'key': nothing
         })
