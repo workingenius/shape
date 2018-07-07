@@ -180,6 +180,10 @@ class TestDictChecker(TestCase):
         summ = self.checker.verify({'key': 1.1})
         self.assertEqual(summ.path, ['key'])
 
+    def test_miss_key(self):
+        summ = self.checker.verify({})
+        self.assertFalse(summ)
+
     def test_extra_key_allowed(self):
         summ = self.checker.verify({
             'key': 1,
@@ -203,3 +207,19 @@ class TestNoneChecker(TestCase):
     def test_negative_case(self):
         summ = NoneChecker().verify('None')
         self.assertFalse(summ)
+
+
+class TestOptionalChecker(TestCase):
+    def test_positive_case(self):
+        summ = OptionalChecker(TypedChecker(int)).verify(None)
+        self.assertTrue(summ)
+
+
+class TestOptionalKeyChecker(TestCase):
+    def test_positive_case(self):
+        summ = DictChecker({
+            'key': OptionalKeyChecker(TypedChecker(int))
+        }).verify({
+            # 'key': nothing
+        })
+        self.assertTrue(summ)
