@@ -2,7 +2,7 @@
 
 a python nested structure verify tool
 
-# Rationale
+## Rationale
 
 When processing large and deeply nested json data, structrual exceptions often occur if the data quality is not assured. E.g. A missing dict key, an extra dict key that should not have existed, some miss-spellings or getting string "1" instead of number 1. They are just syntax valid json data, so IDEs would not help.
 
@@ -10,13 +10,13 @@ Things happens when json strings come from another system (maybe crude) that out
 
 It's worse if data contains very long string, so it's not easy to check and correct it by your eyes. Even with pretty print, you still tend to overlook something facing long-long strings.
 
-# Just be Defensive
+## Just be Defensive
 
 In some of the cases, we ask maintainers to fix. While in some else, we need to take data with "dirty" structure into consideration. Our program could be strong enough, e.g. refuse to do further work if structural incorections are spotted, raise exception with hints, or try to do some simple fix. That is to be defensive.
 
 Generally speaking, we would want to do this as soon as possible. Spotting an error just when we get the data, is better than it's delayed to be a weird exception in our main logic.
 
-# And declarative
+## And declarative
 
 If the data really nest deeply, there would be many layers of "for loops", many breaks and continues. It's hard to read, not explicit enough, because code readers must imagine the data structure through imperitive instructions.
 
