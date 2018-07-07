@@ -193,3 +193,13 @@ class TestDictChecker(TestCase):
             'extra_key': None
         })
         self.assertTrue(summ)
+
+
+class TestNoneChecker(TestCase):
+    def test_positive_case(self):
+        summ = NoneChecker().verify(None)
+        self.assertTrue(summ)
+
+    def test_negative_case(self):
+        summ = NoneChecker().verify('None')
+        self.assertFalse(summ)

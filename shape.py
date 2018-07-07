@@ -126,7 +126,7 @@ class SequenceChecker(ShapeChecker):
             return Summary(success=False, path=path, error='not iterable')
 
         for i, e in enumerate(anything):
-            s = self.checker.verify(e, path=path + [i])
+            s = self.checker.verify(e, path=path + [i   ])
             if not s:
                 return s
         return Summary(success=True)
