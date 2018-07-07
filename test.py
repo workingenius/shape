@@ -66,19 +66,19 @@ class TestOrChecker(TestCase):
         self.checker2 = TermChecker(lambda x: x > 0)
 
     def test_true_true(self):
-        summ = (self.checker1 & self.checker2).verify(1)
+        summ = (self.checker1 | self.checker2).verify(1)
         self.assertTrue(summ)
 
     def test_true_false(self):
-        summ = (self.checker1 & self.checker2).verify(-1)
+        summ = (self.checker1 | self.checker2).verify(-1)
         self.assertTrue(summ)
 
     def test_false_true(self):
-        summ = (self.checker2 & self.checker1).verify(-1)
+        summ = (self.checker2 | self.checker1).verify(-1)
         self.assertTrue(summ)
 
     def test_false_false(self):
-        summ = (self.checker2 & self.checker1).verify(-1.5)
+        summ = (self.checker2 | self.checker1).verify(-1.5)
         self.assertFalse(summ)
         self.assertEqual(summ.path, [])
 
@@ -178,7 +178,7 @@ class TestDictChecker(TestCase):
 
     def test_negative_case_with_path(self):
         summ = self.checker.verify({'key': 1.1})
-        self.assertEqual(summ.path, [])
+        self.assertEqual(summ.path, ['key'])
 
     def test_extra_key_allowed(self):
         summ = self.checker.verify({
