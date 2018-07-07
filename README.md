@@ -4,7 +4,7 @@ a python nested structure verify tool
 
 ## Rationale
 
-When processing large and deeply nested json data, structrual exceptions often occur if the data quality is not assured. E.g. A missing dict key, an extra dict key that should not have existed, some miss-spellings or getting string "1" instead of number 1. They are just syntax valid json data, so IDEs would not help.
+When processing large and deeply nested json data, structrual exceptions often occur if the data quality is not assured. E.g. A missing dict key, an extra dict key that should not have existed, some misspellings or getting string "1" instead of number 1. They are just syntax valid json data, so IDEs would not help.
 
 Things happens when json strings come from another system (maybe crude) that out of control, or it's input with keyboard or some copy-paste by another coder for temporary use, or both json producers and consumers are just started to work together and not familiar with a protocol with complex structure...
 
