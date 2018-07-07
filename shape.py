@@ -68,6 +68,21 @@ class LengthChecker(ShapeChecker):
             return Summary(success=False, path=path, error='not length of {0}'.format(self.length))
 
 
+class EnumChecker(ShapeChecker):
+    def __init__(self, options):
+        self.options = list(options)  # type: list
+
+    def verify(self, anything, path=None):
+        if not path:
+            path = []
+
+        if anything in self.options:
+            return Summary(success=True)
+        else:
+            return Summary(success=False, path=path,
+                           error='{0} not in options'.format(repr(anything)))
+
+
 # Compound Checkers
 
 
@@ -243,6 +258,7 @@ C = TermChecker
 T = TypedChecker
 L = LengthChecker
 N = NoneChecker
+E = EnumChecker
 
 Seq = SequenceChecker
 Mpp = MappingChecker
