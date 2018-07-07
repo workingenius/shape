@@ -16,14 +16,14 @@ In some of the cases, we ask maintainers to fix. While in some else, we need to 
 
 Generally speaking, we would want to do this as soon as possible. Spotting an error just when we get the data, is better than it's delayed to be a weird exception in our main logic.
 
-## And declarative
+## And Declarative
 
 If the data really nest deeply, there would be many layers of "for loops", many breaks and continues. It's hard to read, not explicit enough, because code readers must imagine the data structure through imperitive instructions.
 
 That's how "shape" helps use. We just describe the nesting structure of data -- we call it the "shape" of data, then we get a checker that verifies anything that you give it. An example:
 
 ```python
-Subject = T(str) & E(['sport', 'maths', 'literary'])
+Subject = T(str) & E(['sport', 'maths', 'literature'])
 
 Question = Mpp(
     T(str) & C(lambda x: x.startswith('q')),  # q for "question"
@@ -103,3 +103,55 @@ print(Quiz.verify(object()))
 # <shape bad: path: /, error: not a dict>
 ```
  
+## Common Checkers and Abbreviations
+
+nearly all checkers can be found in the quiz example
+
+### Structural Checkers
+
+#### SequenceChecker (Seq)
+
+a sequence checker accepts a sub-checker
+
+pass if all elements in a sequence pass the sub-checker, otherwise fail
+
+#### MappingChecker (Mpp)
+
+a mapping checker accepts a key-checker and a value-checker
+
+pass if all k-v pairs pass the key-chekcer and the value-chekcer, otherwise fail
+
+#### DictChecker (Dct)
+
+a dict checker accepts a dict, indicating the keys it should contain, and a sub-chekcer for each key
+
+pass if all sub-checkers pass, otherwise fail
+
+### Terminal Checkers
+
+#### PredicateChecker (P) 
+
+wrap an user-defined function as a predicate to be a checker
+
+#### TypeChecker (T)
+
+pass if it's instance of the type, otherwise fail
+
+#### NoneChecker (N)
+
+pass if None is given, otherwise fail
+
+#### EnumChecker (E)
+
+pass if something hit one of the enumeration, otherwise fail
+
+### Logical Checkers
+
+#### AndChecker (&)
+
+pass if both checker-A and checker-B pass, otherwise fail
+
+#### OrChecker (|)
+
+pass if any of the checker-A and checker-B pass, otherwise fail
+
