@@ -177,9 +177,13 @@ class TestDictChecker(TestCase):
 
     def test_bad_interface(self):
         """验证的对象不是字典时，验证不通过"""
+        summ = self.checker.verify(object())
+        self.assertFalse(summ)
 
     def test_bad_interface_with_path(self):
         """验证的对象不是字典时，错误路径中带有 dict key"""
+        summ = self.checker.verify(object())
+        self.assertEqual(summ.path, [])
 
     def test_negative_case(self):
         summ = self.checker.verify({'key': 1.1})
